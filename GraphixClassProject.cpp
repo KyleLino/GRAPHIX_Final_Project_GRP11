@@ -94,6 +94,16 @@ int main(void)
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(tex_bytes);
 
+    int img_width2, img_height2, color_channels2;
+    unsigned char* tex_bytes2 = stbi_load("3D/partenza.jpg", &img_width2, &img_height2, &color_channels2, 0);
+    GLuint texture2;
+    glGenTextures(1, &texture2);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture2);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img_width2, img_height2, 0, GL_RGB, GL_UNSIGNED_BYTE, tex_bytes2);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(tex_bytes2);
+
     glEnable(GL_DEPTH_TEST);
 
     glfwSetKeyCallback(window, Key_Callback);
@@ -197,12 +207,12 @@ int main(void)
     glEnableVertexAttribArray(0);
 
     std::string facesSkybox[]{
-        "Skybox/rainbow_rt.png",
-        "Skybox/rainbow_lf.png",
-        "Skybox/rainbow_up.png",
-        "Skybox/rainbow_dn.png",
-        "Skybox/rainbow_ft.png",
-        "Skybox/rainbow_bk.png"
+        "Skybox/uw_rt.jpg",
+        "Skybox/uw_lf.jpg",
+        "Skybox/uw_up.jpg",
+        "Skybox/uw_dn.jpg",
+        "Skybox/uw_ft.jpg",
+        "Skybox/uw_bk.jpg"
     };
 
     unsigned int skyboxTex;
@@ -281,6 +291,43 @@ int main(void)
         fullVertexData.push_back(attributes.texcoords[uvIndex]);
         fullVertexData.push_back(attributes.texcoords[uvIndex+1]);
     }
+    std::string path2 = "3D/Octopus.obj";
+    std::vector<tinyobj::shape_t> shapes2;
+    std::vector<tinyobj::material_t> materials2;
+    std::string warning2, error2;
+    tinyobj::attrib_t attributes2;
+    bool success2 = tinyobj::LoadObj(
+        &attributes2,
+        &shapes2,
+        &materials2,
+        &warning2,
+        &error2,
+        path2.c_str()
+    );
+    std::vector<GLuint> mesh_indices2;
+    for (int i = 0; i < shapes2[0].mesh.indices.size(); i++) {
+        mesh_indices2.push_back(
+            shapes2[0].mesh.indices[i].vertex_index
+        );
+    }
+    std::vector<GLfloat> fullVertexData2;
+    for (int i = 0; i < shapes2[0].mesh.indices.size(); i++) {
+        tinyobj::index_t vData2 = shapes2[0].mesh.indices[i];
+        int vertexIndex2 = vData2.vertex_index * 3;
+        int normalsIndex2 = vData2.normal_index * 3;
+        int uvIndex2 = vData2.texcoord_index * 2;
+
+        fullVertexData2.push_back(attributes2.vertices[vertexIndex2]);
+        fullVertexData2.push_back(attributes2.vertices[vertexIndex2 + 1]);
+        fullVertexData2.push_back(attributes2.vertices[vertexIndex2 + 2]);
+
+        fullVertexData2.push_back(attributes2.normals[normalsIndex2]);
+        fullVertexData2.push_back(attributes2.normals[normalsIndex2 + 1]);
+        fullVertexData2.push_back(attributes2.normals[normalsIndex2 + 2]);
+
+        fullVertexData2.push_back(attributes.texcoords[uvIndex2]);
+        fullVertexData2.push_back(attributes.texcoords[uvIndex2 + 1]);
+    }
     GLfloat vertices[]{
         0.0f, 0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
@@ -325,6 +372,49 @@ int main(void)
         GL_FALSE,
         8 * sizeof(GL_FLOAT),
         (void*)uvPtr
+    );
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    GLuint VAO2, VBO2;
+    glGenVertexArrays(1, &VAO2);
+    glGenBuffers(1, &VBO2);
+    glBindVertexArray(VAO2);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+    glBufferData(
+        GL_ARRAY_BUFFER,
+        sizeof(GL_FLOAT)* fullVertexData2.size(),
+        fullVertexData2.data(),
+        GL_STATIC_DRAW
+    );
+    glVertexAttribPointer(
+        0,
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        8 * sizeof(GL_FLOAT),
+        (void*)0
+    );
+    GLintptr normPtr2 = 3 * sizeof(GL_FLOAT);
+    glVertexAttribPointer(
+        1,
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        8 * sizeof(GL_FLOAT),
+        (void*)normPtr2
+    );
+    GLintptr uvPtr2 = 6 * sizeof(GL_FLOAT);
+    glVertexAttribPointer(
+        2,
+        2,
+        GL_FLOAT,
+        GL_FALSE,
+        8 * sizeof(GL_FLOAT),
+        (void*)uvPtr2
     );
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
@@ -379,6 +469,11 @@ int main(void)
         sampleObject.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject.setScale(0.01f, 0.01f, 0.01f);
         sampleObject.drawObject(VAO, skyboxVAO, texture, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
+        
+        sampleObject2.setPosition(3.0f, 0.0f, 0.0f);
+        sampleObject2.setRotation(0.0f, 1.0f, 0.0f);
+        sampleObject2.setScale(2.0f, 2.0f, 2.0f);
+        sampleObject2.drawObject(VAO2, skyboxVAO, texture2, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData2.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
