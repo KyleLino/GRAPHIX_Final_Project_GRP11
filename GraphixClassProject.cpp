@@ -100,7 +100,7 @@ int main(void)
     stbi_image_free(tex_bytes);
 
     int img_width2, img_height2, color_channels2;
-    unsigned char* tex_bytes2 = stbi_load("3D/partenza.jpg", &img_width2, &img_height2, &color_channels2, 0);
+    unsigned char* tex_bytes2 = stbi_load("3D/octopus_texture.jpeg", &img_width2, &img_height2, &color_channels2, 0);
     GLuint texture2;
     glGenTextures(1, &texture2);
     glActiveTexture(GL_TEXTURE0);
@@ -108,6 +108,47 @@ int main(void)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img_width2, img_height2, 0, GL_RGB, GL_UNSIGNED_BYTE, tex_bytes2);
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(tex_bytes2);
+
+    int img_width3, img_height3, color_channels3;
+    unsigned char* tex_bytes3 = stbi_load("3D/OkounTexture.png", &img_width3, &img_height3, &color_channels3, 0);
+    GLuint texture3;
+    glGenTextures(1, &texture3);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture3);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img_width3, img_height3, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex_bytes3);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(tex_bytes3);
+
+    int img_width4, img_height4, color_channels4;
+    unsigned char* tex_bytes4 = stbi_load("3D/wood.jpg", &img_width4, &img_height4, &color_channels4, 0);
+    GLuint texture4;
+    glGenTextures(1, &texture4);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture4);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img_width4, img_height4, 0, GL_RGB, GL_UNSIGNED_BYTE, tex_bytes4);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(tex_bytes4);
+
+    int img_width5, img_height5, color_channels5;
+    unsigned char* tex_bytes5 = stbi_load("3D/texture0.jpg", &img_width5, &img_height5, &color_channels5, 0);
+    GLuint texture5;
+    glGenTextures(1, &texture5);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture5);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img_width5, img_height5, 0, GL_RGB, GL_UNSIGNED_BYTE, tex_bytes5);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(tex_bytes5);
+
+    int img_width6, img_height6, color_channels6;
+    unsigned char* tex_bytes6 = stbi_load("3D/gws_texture.jpeg", &img_width6, &img_height6, &color_channels6, 0);
+    GLuint texture6;
+    glGenTextures(1, &texture6);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture6);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img_width6, img_height6, 0, GL_RGB, GL_UNSIGNED_BYTE, tex_bytes6);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(tex_bytes6);
+
 
     glEnable(GL_DEPTH_TEST);
 
@@ -885,34 +926,33 @@ int main(void)
         sampleObject2.setPosition(3.0f, 0.0f, 0.0f);
         sampleObject2.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject2.setScale(1.0f, 1.0f, 1.0f);
-        sampleObject2.drawObject(VAO2, skyboxVAO, texture, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData2.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
+        sampleObject2.drawObject(VAO2, skyboxVAO, texture2, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData2.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
         
         sampleObject3.setPosition(-3.0f, 0.0f, 0.0f);
         sampleObject3.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject3.setScale(0.5f, 0.5f, 0.5f);
-        sampleObject3.drawObject(VAO3, skyboxVAO, texture, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData3.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
+        sampleObject3.drawObject(VAO3, skyboxVAO, texture3, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData3.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
 
         sampleObject4.setPosition(3.0f, 3.0f, 0.0f);
         sampleObject4.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject4.setScale(1.0f, 1.0f, 1.0f);
-        sampleObject4.drawObject(VAO4, skyboxVAO, texture, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData4.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
+        sampleObject4.drawObject(VAO4, skyboxVAO, texture4, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData4.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
 
         sampleObject5.setPosition(-3.0f, 3.0f, 0.0f);
         sampleObject5.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject5.setScale(0.01f, 0.01f, 0.01f);
-        sampleObject5.drawObject(VAO5, skyboxVAO, texture, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData5.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
+        sampleObject5.drawObject(VAO5, skyboxVAO, texture6, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData5.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
 
         sampleObject6.setPosition(3.0f, -3.0f, 0.0f);
         sampleObject6.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject6.setScale(1.01f, 1.01f, 1.01f);
-        sampleObject6.drawObject(VAO6, skyboxVAO, texture, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData6.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
+        sampleObject6.drawObject(VAO6, skyboxVAO, texture5, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData6.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
 
         sampleObject6.setPosition(-3.0f, -3.0f, 0.0f);
         sampleObject6.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject6.setScale(0.05f, 0.05f, 0.05f);
-        sampleObject6.drawObject(VAO7, skyboxVAO, texture, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData7.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
+        sampleObject6.drawObject(VAO7, skyboxVAO, texture6, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData7.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
 
-        std::cout << "test1";
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
