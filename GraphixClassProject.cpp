@@ -149,6 +149,15 @@ int main(void)
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(tex_bytes6);
 
+    int img_width7, img_height7, color_channels7;
+    unsigned char* tex_bytes7 = stbi_load("3D/texture_shark.jpg", &img_width7, &img_height7, &color_channels7, 0);
+    GLuint texture7;
+    glGenTextures(1, &texture7);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture7);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img_width7, img_height7, 0, GL_RGB, GL_UNSIGNED_BYTE, tex_bytes7);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(tex_bytes7);
 
     glEnable(GL_DEPTH_TEST);
 
@@ -941,7 +950,7 @@ int main(void)
         sampleObject5.setPosition(-3.0f, 3.0f, 0.0f);
         sampleObject5.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject5.setScale(0.01f, 0.01f, 0.01f);
-        sampleObject5.drawObject(VAO5, skyboxVAO, texture6, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData5.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
+        sampleObject5.drawObject(VAO5, skyboxVAO, texture7, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData5.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
 
         sampleObject6.setPosition(3.0f, -3.0f, 0.0f);
         sampleObject6.setRotation(0.0f, 1.0f, 0.0f);
