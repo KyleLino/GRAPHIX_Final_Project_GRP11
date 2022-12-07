@@ -912,6 +912,8 @@ int main(void)
         sampleObject6.setScale(0.05f, 0.05f, 0.05f);
         sampleObject6.drawObject(VAO7, skyboxVAO, texture, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData7.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
 
+        std::cout << "test1";
+
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
