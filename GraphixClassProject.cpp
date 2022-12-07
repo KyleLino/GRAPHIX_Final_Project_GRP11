@@ -14,10 +14,14 @@
 #include <string>
 #include <iostream>
 
+#include "Player.h"
+#include "Shader.h"
 #include "Camera.h"
 #include "Light.h"
 #include "Model.h"
 
+Player playerObject;
+Shader shaderObject;
 Camera cameraObject;
 Light lightObject;
 Model sampleObject;
@@ -32,25 +36,27 @@ float mod_x = 0.0f;
 float mod_y = 0.0f;
 float mod_z = -5.0f;
 void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_D /*&& action == GLFW_PRESS*/) {
-        mod_x += 10.0f;
+    if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/) {
+
     }
-    if (key == GLFW_KEY_A /*&& action == GLFW_PRESS*/) {
+    if (key == GLFW_KEY_S /*&& action == GLFW_PRESS*/) {
         mod_x -= 10.0f;
     }
 
-    if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/) {
+    if (key == GLFW_KEY_A /*&& action == GLFW_PRESS*/) {
         mod_z += 0.2f;
     }
-    if (key == GLFW_KEY_S /*&& action == GLFW_PRESS*/) {
+    if (key == GLFW_KEY_D /*&& action == GLFW_PRESS*/) {
         mod_z -= 0.2f;
     }
 
-    if (key == GLFW_KEY_UP /*&& action == GLFW_PRESS*/) {
-        mod_y += 0.3f;
+    if (key == GLFW_KEY_Q /*&& action == GLFW_PRESS*/) {
+        playerObject.setPlayerDepth(mod_x += 0.01);
+        std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
     }
-    if (key == GLFW_KEY_DOWN /*&& action == GLFW_PRESS*/) {
-        mod_y -= 0.3f;
+    if (key == GLFW_KEY_E /*&& action == GLFW_PRESS*/) {
+        playerObject.setPlayerDepth(mod_x -= 0.01);
+        std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
     }
 }
 
