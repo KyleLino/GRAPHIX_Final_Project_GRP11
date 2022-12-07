@@ -1,0 +1,6 @@
+C:\Users\Karl\source\repos\GraphixClassProject\x64\Debug\GraphixClassProject.exe
+C:\Users\Karl\Desktop\graphix\iterations\08 texture sword\GraphixClassProject\x64\Debug\GraphixClassProject.exe
+C:\Users\Karl\Desktop\graphix\iterations\09 Lighting\GraphixClassProject\x64\Debug\GraphixClassProject.exe
+C:\Users\Karl\Desktop\graphix\iterations\10 Point Light\GraphixClassProject\x64\Debug\GraphixClassProject.exe
+C:\Users\Karl\Desktop\graphix\iterations\11 Skybox\GraphixClassProject\x64\Debug\GraphixClassProject.exe
+C:\Users\Karl\Desktop\gfx-mp\GraphixClassProject\x64\Debug\GraphixClassProject.exe

@@ -1,0 +1,7 @@
+﻿  GraphixClassProject.cpp
+C:\Users\Karl\Desktop\gfx-mp\GraphixClassProject\GraphixClassProject.cpp(63,44): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Karl\Desktop\gfx-mp\GraphixClassProject\GraphixClassProject.cpp(63,31): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Karl\Desktop\gfx-mp\GraphixClassProject\GraphixClassProject.cpp(381,414): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Model.cpp
+  Generating Code...
+  GraphixClassProject.vcxproj -> C:\Users\Karl\Desktop\gfx-mp\GraphixClassProject\x64\Debug\GraphixClassProject.exe
