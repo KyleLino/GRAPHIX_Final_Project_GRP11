@@ -32,15 +32,19 @@ Model sampleObject5;
 Model sampleObject6;
 Model sampleObject7;
 
-float mod_x = 0.0f;
-float mod_y = 0.0f;
-float mod_z = -5.0f;
+float mod_x = 10.0f;
+float mod_y = 10.0f;
+float mod_z = 15.0f;
 void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/) {
-
+        mod_x -= 0.5f;
+        mod_y -= 0.5f;
+        mod_z -= 0.5f;
     }
     if (key == GLFW_KEY_S /*&& action == GLFW_PRESS*/) {
-        mod_x -= 10.0f;
+        mod_x += 0.5f;
+        mod_y += 0.5f;
+        mod_z += 0.5f;
     }
 
     if (key == GLFW_KEY_A /*&& action == GLFW_PRESS*/) {
@@ -917,7 +921,7 @@ int main(void)
     cameraObject.setPerspective();
     cameraObject.setCameraPosition(glm::vec3(0.0f,0.0f,10.0f));
     cameraObject.setWorldUp(glm::vec3(0.0f, 1.0f, 0.0f));
-    cameraObject.setCameraCenter(glm::vec3(0.0f, 0.0f, 0.0f));
+    cameraObject.setCameraCenter(glm::vec3(0.0f, 0.0f, -200.0f));
     cameraObject.setViewMatrix();
 
     lightObject.setLightPosition(glm::vec3(-10, 3, 0));
@@ -927,43 +931,51 @@ int main(void)
     lightObject.setSpecStrength(0.5f);
     lightObject.setSpecPhong(16.0f);
 
+    float g;
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         theta += 0.1f;
-        sampleObject.setPosition(0.0f, 0.0f, 0.0f);
+        g = mod_x;
+
+        cameraObject.setCameraPosition(glm::vec3(0.0f, 0.0f, mod_x));
+        lightObject.setLightPosition(glm::vec3(0.0f, 0.0f, mod_z));
+        cameraObject.setViewMatrix();
+
+        sampleObject.setPosition(0.0f, -1.0f, mod_y);
         sampleObject.setRotation(0.0f, 1.0f, 0.0f);
-        sampleObject.setScale(0.01f, 0.01f, 0.01f);
-        sampleObject.drawObject(VAO, skyboxVAO, texture, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
-        
+        sampleObject.setScale(1.0f, 1.0f, 1.0f);
+        sampleObject.drawObject(VAO4, skyboxVAO, texture4, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData4.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), 90.0f);
+
         sampleObject2.setPosition(3.0f, 0.0f, 0.0f);
         sampleObject2.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject2.setScale(1.0f, 1.0f, 1.0f);
         sampleObject2.drawObject(VAO2, skyboxVAO, texture2, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData2.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
         
-        sampleObject3.setPosition(-3.0f, 0.0f, 0.0f);
+        sampleObject3.setPosition(-3.0f, 0.0f, -20.0f);
         sampleObject3.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject3.setScale(0.5f, 0.5f, 0.5f);
         sampleObject3.drawObject(VAO3, skyboxVAO, texture3, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData3.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
 
-        sampleObject4.setPosition(3.0f, 3.0f, 0.0f);
+        sampleObject4.setPosition(3.0f, 3.0f, -40.0f);
         sampleObject4.setRotation(0.0f, 1.0f, 0.0f);
-        sampleObject4.setScale(1.0f, 1.0f, 1.0f);
-        sampleObject4.drawObject(VAO4, skyboxVAO, texture4, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData4.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
+        sampleObject4.setScale(0.01f, 0.01f, 0.01f);
+        sampleObject4.drawObject(VAO, skyboxVAO, texture, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
 
-        sampleObject5.setPosition(-3.0f, 3.0f, 0.0f);
+        sampleObject5.setPosition(-3.0f, 3.0f, -60.0f);
         sampleObject5.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject5.setScale(0.01f, 0.01f, 0.01f);
         sampleObject5.drawObject(VAO5, skyboxVAO, texture7, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData5.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
 
-        sampleObject6.setPosition(3.0f, -3.0f, 0.0f);
+        sampleObject6.setPosition(3.0f, -3.0f, -80.0f);
         sampleObject6.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject6.setScale(1.01f, 1.01f, 1.01f);
         sampleObject6.drawObject(VAO6, skyboxVAO, texture5, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData6.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
 
-        sampleObject6.setPosition(-3.0f, -3.0f, 0.0f);
+        sampleObject6.setPosition(-3.0f, -3.0f, -100.0f);
         sampleObject6.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject6.setScale(0.05f, 0.05f, 0.05f);
         sampleObject6.drawObject(VAO7, skyboxVAO, texture6, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData7.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), theta);
