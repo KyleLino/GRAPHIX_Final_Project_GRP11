@@ -36,6 +36,9 @@ float mod_x = 10.0f;
 float mod_y = 10.0f;
 float mod_z = 15.0f;
 float mod_center = -20.0f;
+float mod_a = 0.f;
+float mod_b = 0.f;
+float mod_position = 0.f;
 void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/) {
         mod_x -= 0.5f;
@@ -51,19 +54,23 @@ void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }
 
     if (key == GLFW_KEY_A /*&& action == GLFW_PRESS*/) {
-        mod_z += 0.2f;
+       mod_a -= 0.5f;
     }
     if (key == GLFW_KEY_D /*&& action == GLFW_PRESS*/) {
-        mod_z -= 0.2f;
+        mod_a += 0.5f;
     }
 
     if (key == GLFW_KEY_Q /*&& action == GLFW_PRESS*/) {
         playerObject.setPlayerDepth(mod_x += 0.01);
         std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
+        mod_b += 0.5f;
+        mod_position += 0.5f;
     }
     if (key == GLFW_KEY_E /*&& action == GLFW_PRESS*/) {
         playerObject.setPlayerDepth(mod_x -= 0.01);
         std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
+        mod_b -= 0.5f;
+        mod_position -= 0.5f;
     }
 }
 
@@ -945,12 +952,12 @@ int main(void)
 
         lightObject.setLightColor(glm::vec3(0.0f, 1.0f, 0.0f));
         lightObject.setAmbientColor(glm::vec3(0.0f, 1.0f, 0.0f));
-        cameraObject.setCameraPosition(glm::vec3(0.0f, 0.0f, mod_x));
-        cameraObject.setCameraCenter(glm::vec3(0.0f, 0.0f, mod_center));
-        lightObject.setLightPosition(glm::vec3(0.0f, 0.0f, mod_z));
+        cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x));
+        cameraObject.setCameraCenter(glm::vec3(mod_a,mod_b, mod_center));
+        lightObject.setLightPosition(glm::vec3(mod_a, mod_b, mod_z));
         cameraObject.setViewMatrix();
 
-        sampleObject.setPosition(0.0f, -1.0f, mod_y);
+        sampleObject.setPosition(mod_a, mod_b - 1, mod_y);
         sampleObject.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject.setScale(1.0f, 1.0f, 1.0f);
         sampleObject.drawObject(VAO4, skyboxVAO, texture4, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData4.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), 90.0f);
