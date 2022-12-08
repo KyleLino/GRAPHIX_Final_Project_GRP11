@@ -33,7 +33,7 @@ Model sampleObject6;
 Model sampleObject7;
 
 float mod_x = 10.0f;
-float mod_y = 10.0f;
+float mod_y = 20.0f;
 float mod_z = 15.0f;
 float mod_center = -20.0f;
 float mod_a = 0.f;
@@ -957,7 +957,7 @@ int main(void)
         lightObject.setLightPosition(glm::vec3(mod_a, mod_b, mod_z));
         cameraObject.setViewMatrix();
 
-        sampleObject.setPosition(mod_a, mod_b - 1, mod_y);
+        sampleObject.setPosition(mod_a, mod_b, mod_y);
         sampleObject.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject.setScale(1.0f, 1.0f, 1.0f);
         sampleObject.drawObject(VAO4, skyboxVAO, texture4, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData4.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), 90.0f);
