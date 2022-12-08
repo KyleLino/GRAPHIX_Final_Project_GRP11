@@ -35,16 +35,19 @@ Model sampleObject7;
 float mod_x = 10.0f;
 float mod_y = 10.0f;
 float mod_z = 15.0f;
+float mod_center = -20.0f;
 void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/) {
         mod_x -= 0.5f;
         mod_y -= 0.5f;
         mod_z -= 0.5f;
+        mod_center -= 0.5f;
     }
     if (key == GLFW_KEY_S /*&& action == GLFW_PRESS*/) {
         mod_x += 0.5f;
         mod_y += 0.5f;
         mod_z += 0.5f;
+        mod_center -= 0.5f;
     }
 
     if (key == GLFW_KEY_A /*&& action == GLFW_PRESS*/) {
@@ -921,7 +924,7 @@ int main(void)
     cameraObject.setPerspective();
     cameraObject.setCameraPosition(glm::vec3(0.0f,0.0f,10.0f));
     cameraObject.setWorldUp(glm::vec3(0.0f, 1.0f, 0.0f));
-    cameraObject.setCameraCenter(glm::vec3(0.0f, 0.0f, -200.0f));
+    cameraObject.setCameraCenter(glm::vec3(0.0f, 0.0f, 0.0f));
     cameraObject.setViewMatrix();
 
     lightObject.setLightPosition(glm::vec3(-10, 3, 0));
@@ -939,9 +942,11 @@ int main(void)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         theta += 0.1f;
-        g = mod_x;
 
+        lightObject.setLightColor(glm::vec3(0.0f, 1.0f, 0.0f));
+        lightObject.setAmbientColor(glm::vec3(0.0f, 1.0f, 0.0f));
         cameraObject.setCameraPosition(glm::vec3(0.0f, 0.0f, mod_x));
+        cameraObject.setCameraCenter(glm::vec3(0.0f, 0.0f, mod_center));
         lightObject.setLightPosition(glm::vec3(0.0f, 0.0f, mod_z));
         cameraObject.setViewMatrix();
 
