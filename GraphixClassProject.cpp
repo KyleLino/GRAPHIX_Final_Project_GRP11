@@ -139,6 +139,7 @@ float pitch = 0.0f;
 // These are the mouse callback interaction
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
+    
     if (firstMouse)
     {
         lastX = xpos;
@@ -1076,7 +1077,8 @@ int main(void)
         }
 
         if(viewState == 0)
-            cameraObject.setCameraCenter(glm::vec3(mod_a, mod_b, mod_x) + cameraFront);
+            //cameraObject.setCameraCenter(glm::vec3(mod_a, mod_b, mod_x) + cameraFront);
+            cameraObject.setCameraCenter(glm::vec3(mod_a, mod_b, mod_center));
         else
             cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x) - cameraFront);
         
