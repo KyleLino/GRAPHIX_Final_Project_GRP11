@@ -23,6 +23,7 @@
 Player playerObject;
 Shader shaderObject;
 Camera cameraObject;
+Camera cameraObject2;
 Light lightObject;
 Model sampleObject;
 Model sampleObject2;
@@ -33,31 +34,40 @@ Model sampleObject6;
 Model sampleObject7;
 
 float mod_x = 10.0f;
-float mod_y = 20.0f;
+float mod_y = 0.0f;
 float mod_z = 15.0f;
 float mod_center = -20.0f;
 float mod_a = 0.f;
 float mod_b = 0.f;
 float mod_position = 0.f;
+float speed = 0.001f;
 void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/) {
         mod_x -= 0.5f;
         mod_y -= 0.5f;
         mod_z -= 0.5f;
         mod_center -= 0.5f;
+
+        cameraObject.setCameraPosition(speed * cameraObject.getCameraCenter() + cameraObject.getCameraPosition());
     }
     if (key == GLFW_KEY_S /*&& action == GLFW_PRESS*/) {
         mod_x += 0.5f;
         mod_y += 0.5f;
         mod_z += 0.5f;
         mod_center -= 0.5f;
+
+        cameraObject.setCameraPosition(speed * -cameraObject.getCameraCenter() + cameraObject.getCameraPosition());
     }
 
     if (key == GLFW_KEY_A /*&& action == GLFW_PRESS*/) {
        mod_a -= 0.5f;
+
+       cameraObject.setCameraPosition(speed * -glm::normalize(glm::cross(cameraObject.getCameraCenter(), cameraObject.getWorldUp())) + cameraObject.getCameraPosition());
     }
     if (key == GLFW_KEY_D /*&& action == GLFW_PRESS*/) {
         mod_a += 0.5f;
+
+        cameraObject.setCameraPosition(speed * glm::normalize(glm::cross(cameraObject.getCameraCenter(), cameraObject.getWorldUp())) + cameraObject.getCameraPosition());
     }
 
     if (key == GLFW_KEY_Q /*&& action == GLFW_PRESS*/) {
@@ -74,6 +84,56 @@ void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }
 }
 
+glm::vec3 cameraFront;
+bool firstMouse = true;
+float lastX = 800.0f / 2.0f;
+float lastY = 800.0f / 2.0f;
+float offzx = 0.0f;
+float offzy = 0.0f;
+float yaw = -90.0f;
+float pitch = 0.0f;
+
+// These are the mouse callback interaction
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    if (firstMouse)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos;
+    lastX = xpos;
+    lastY = ypos;
+
+    offzx = xoffset;
+    offzy = yoffset;
+
+    float sensitivity = 0.5f;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+
+    yaw += xoffset;
+    pitch += yoffset;
+
+    if (pitch > 89.0f)
+        pitch = 89.0f;
+    if (pitch < -89.0f)
+        pitch = -89.0f;
+
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    direction.y = sin(glm::radians(pitch));
+    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+
+    offzx = direction.x;
+    offzy = direction.y;
+
+    cameraFront = glm::normalize(direction);
+}
+
 int main(void)
 {
     GLFWwindow* window;
@@ -82,8 +142,8 @@ int main(void)
     if (!glfwInit())
         return -1;
 
-    float screenWidth = 600.0f;
-    float screenHeight = 600.0f;
+    float screenWidth = 800.0f;
+    float screenHeight = 800.0f;
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(screenWidth, screenHeight, "Hello World", NULL, NULL);
     if (!window)
@@ -182,6 +242,7 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
 
     glfwSetKeyCallback(window, Key_Callback);
+    glfwSetCursorPosCallback(window, mouse_callback);
 
     std::fstream vertSrc("Shaders/sample.vert");
     std::stringstream vertBuff;
@@ -941,8 +1002,6 @@ int main(void)
     lightObject.setSpecStrength(0.5f);
     lightObject.setSpecPhong(16.0f);
 
-    float g;
-
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -955,6 +1014,9 @@ int main(void)
         cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x));
         cameraObject.setCameraCenter(glm::vec3(mod_a,mod_b, mod_center));
         lightObject.setLightPosition(glm::vec3(mod_a, mod_b, mod_z));
+
+        cameraObject.setCameraCenter(glm::vec3(mod_a, mod_b, mod_x) + cameraFront);
+        //cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x) - cameraFront);
         cameraObject.setViewMatrix();
 
         sampleObject.setPosition(mod_a, mod_b, mod_y);
