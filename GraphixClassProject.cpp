@@ -34,7 +34,7 @@ Model sampleObject6;
 Model sampleObject7;
 
 float mod_x = 10.0f;
-float mod_y = 0.0f;
+float mod_y = 5.0f;
 float mod_z = 15.0f;
 float mod_center = -20.0f;
 float mod_a = 0.f;
@@ -42,6 +42,8 @@ float mod_b = 0.f;
 float mod_position = 0.f;
 float speed = 0.001f;
 float light_intensity = 0.1f;
+int viewState = 0;
+int firstInstance = 0;
 void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/) {
         mod_x -= 0.5f;
@@ -92,6 +94,13 @@ void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mod
         {
             light_intensity = .1f;
         }
+    }
+
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS) {
+        if (viewState == 0)
+            viewState = 1;
+        else
+            viewState = 0;
     }
 }
 
@@ -1020,21 +1029,29 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         theta += 0.1f;
 
-        lightObject.setLightColor(glm::vec3(0.0f, 1.0f, 0.0f));
+        if(viewState == 0)
+            lightObject.setLightColor(glm::vec3(0.0f, 1.0f, 0.0f));
+        else
+            lightObject.setLightColor(glm::vec3(1.0f, 1.0f, 1.0f));
+
         lightObject.setAmbientColor(glm::vec3(0.0f, 1.0f, 0.0f));
         lightObject.setAmbientStrength(light_intensity);
         cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x));
         cameraObject.setCameraCenter(glm::vec3(mod_a,mod_b, mod_center));
         lightObject.setLightPosition(glm::vec3(mod_a, mod_b, mod_z));
 
-        cameraObject.setCameraCenter(glm::vec3(mod_a, mod_b, mod_x) + cameraFront);
-        //cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x) - cameraFront);
+        if(viewState == 0)
+            cameraObject.setCameraCenter(glm::vec3(mod_a, mod_b, mod_x) + cameraFront);
+        else
+            cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x) - cameraFront);
+        
         cameraObject.setViewMatrix();
 
         sampleObject.setPosition(mod_a, mod_b, mod_y);
         sampleObject.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject.setScale(1.0f, 1.0f, 1.0f);
-        sampleObject.drawObject(VAO4, skyboxVAO, texture4, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData4.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), 90.0f);
+        if (viewState == 1)
+            sampleObject.drawObject(VAO4, skyboxVAO, texture4, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData4.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), 90.0f);
 
         sampleObject2.setPosition(3.0f, 0.0f, 0.0f);
         sampleObject2.setRotation(0.0f, 1.0f, 0.0f);
