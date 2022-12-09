@@ -42,6 +42,7 @@ float mod_b = 0.f;
 float mod_position = 0.f;
 float speed = 0.001f;
 float light_intensity = 0.1f;
+float mod_depth = -.5f;
 int viewState = 0;
 int eyeViewState = 0;
 int firstInstance = 0;
@@ -86,16 +87,23 @@ void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (key == GLFW_KEY_Q /*&& action == GLFW_PRESS*/) {
         if (eyeViewState == 0)
         {
-            playerObject.setPlayerDepth(mod_x += 0.01);
-            std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
-            mod_b += 0.5f;
-            mod_position += 0.5f;
+            if (mod_depth + 0.01 < 0)
+            {
+                mod_depth += 0.01;
+                playerObject.setPlayerDepth(mod_depth += 0.01);
+                std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
+                mod_b += 0.5f;
+                mod_position += 0.5f;
+            }
+            
+            
         }
     }
     if (key == GLFW_KEY_E /*&& action == GLFW_PRESS*/) {
         if (eyeViewState == 0)
-        {
-            playerObject.setPlayerDepth(mod_x -= 0.01);
+        {          
+            mod_depth -= 0.01;
+            playerObject.setPlayerDepth(mod_depth -= 0.01);
             std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
             mod_b -= 0.5f;
             mod_position -= 0.5f;
