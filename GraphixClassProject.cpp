@@ -43,6 +43,7 @@ float mod_position = 0.f;
 float speed = 0.001f;
 float light_intensity = 0.1f;
 int viewState = 0;
+int eyeViewState = 0;
 int firstInstance = 0;
 void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/) {
@@ -102,6 +103,13 @@ void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mod
         else
             viewState = 0;
     }
+
+    if (key == GLFW_KEY_2 && action == GLFW_PRESS) {
+        if (eyeViewState == 0)
+            eyeViewState = 1;
+        else
+            eyeViewState = 0;
+    }
 }
 
 glm::vec3 cameraFront;
@@ -158,9 +166,16 @@ int main(void)
 {
     GLFWwindow* window;
 
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
+    glfwInit();
+
+    // APPLE
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    #ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    #endif
+    //SET(CMAKE_OSX_DEPLOYMENT_TARGET 12.0)
 
     float screenWidth = 800.0f;
     float screenHeight = 800.0f;
@@ -1045,6 +1060,12 @@ int main(void)
         else
             cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x) - cameraFront);
         
+        if(eyeViewState == 0){
+            cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x) - cameraFront);
+        }else{
+            cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b + 50.f, mod_x - 25.f) - cameraFront);
+        }
+
         cameraObject.setViewMatrix();
 
         sampleObject.setPosition(mod_a, mod_b, mod_y);
@@ -1052,7 +1073,11 @@ int main(void)
         sampleObject.setScale(1.0f, 1.0f, 1.0f);
         if (viewState == 1)
             sampleObject.drawObject(VAO4, skyboxVAO, texture4, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData4.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), 90.0f);
-
+        else if (eyeViewState == 1)
+        {
+            sampleObject.drawObject(VAO4, skyboxVAO, texture4, skyboxTex, shaderProgram, skybox_shaderProgram, fullVertexData4.size(), cameraObject.getViewMatrix(), cameraObject.getPerspective(), cameraObject.getCameraPosition(), lightObject.getLightPosition(), lightObject.getLightColor(), lightObject.getAmbientStrength(), lightObject.getAmbientColor(), lightObject.getSpecStrength(), lightObject.getSpecPhong(), 90.0f);
+        }
+        
         sampleObject2.setPosition(3.0f, 0.0f, 0.0f);
         sampleObject2.setRotation(0.0f, 1.0f, 0.0f);
         sampleObject2.setScale(1.0f, 1.0f, 1.0f);
