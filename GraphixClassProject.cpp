@@ -54,9 +54,7 @@ void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mod
             mod_z -= 0.5f;
             mod_center -= 0.5f;
             cameraObject.setCameraPosition(speed * cameraObject.getCameraCenter() + cameraObject.getCameraPosition());
-        }
-        
-        
+        }             
     }
     if (key == GLFW_KEY_S /*&& action == GLFW_PRESS*/) {
         if (eyeViewState == 0)
@@ -66,15 +64,13 @@ void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mod
             mod_z += 0.5f;
             mod_center -= 0.5f;
             cameraObject.setCameraPosition(speed * -cameraObject.getCameraCenter() + cameraObject.getCameraPosition());
-        }
-        
+        }     
     }
 
     if (key == GLFW_KEY_A /*&& action == GLFW_PRESS*/) {
         if (eyeViewState == 0)
         {
             mod_a -= 0.5f;
-
             cameraObject.setCameraPosition(speed * -glm::normalize(glm::cross(cameraObject.getCameraCenter(), cameraObject.getWorldUp())) + cameraObject.getCameraPosition());
         }
     }
@@ -82,7 +78,6 @@ void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mod
         if (eyeViewState == 0)
         {
             mod_a += 0.5f;
-
             cameraObject.setCameraPosition(speed * glm::normalize(glm::cross(cameraObject.getCameraCenter(), cameraObject.getWorldUp())) + cameraObject.getCameraPosition());
         }
         
