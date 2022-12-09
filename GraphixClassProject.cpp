@@ -1044,16 +1044,19 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         theta += 0.1f;
 
-        if(viewState == 0)
-            lightObject.setLightColor(glm::vec3(0.0f, 1.0f, 0.0f));
-        else
-            lightObject.setLightColor(glm::vec3(1.0f, 1.0f, 1.0f));
-
-        lightObject.setAmbientColor(glm::vec3(0.0f, 1.0f, 0.0f));
-        lightObject.setAmbientStrength(light_intensity);
         cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x));
         cameraObject.setCameraCenter(glm::vec3(mod_a,mod_b, mod_center));
+        lightObject.setAmbientStrength(light_intensity);
         lightObject.setLightPosition(glm::vec3(mod_a, mod_b, mod_z));
+
+        if (viewState == 0) {
+            lightObject.setLightColor(glm::vec3(0.0f, 1.0f, 0.0f));
+            lightObject.setAmbientColor(glm::vec3(0.0f, 1.0f, 0.0f));
+        }
+        else {
+            lightObject.setLightColor(glm::vec3(1.0f, 1.0f, 1.0f));
+            lightObject.setAmbientColor(glm::vec3(1.0f, 1.0f, 1.0f));
+        }
 
         if(viewState == 0)
             cameraObject.setCameraCenter(glm::vec3(mod_a, mod_b, mod_x) + cameraFront);
