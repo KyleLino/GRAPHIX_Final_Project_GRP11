@@ -47,44 +47,64 @@ int eyeViewState = 0;
 int firstInstance = 0;
 void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/) {
-        mod_x -= 0.5f;
-        mod_y -= 0.5f;
-        mod_z -= 0.5f;
-        mod_center -= 0.5f;
-
-        cameraObject.setCameraPosition(speed * cameraObject.getCameraCenter() + cameraObject.getCameraPosition());
+        if (eyeViewState == 0)
+        {
+            mod_x -= 0.5f;
+            mod_y -= 0.5f;
+            mod_z -= 0.5f;
+            mod_center -= 0.5f;
+            cameraObject.setCameraPosition(speed * cameraObject.getCameraCenter() + cameraObject.getCameraPosition());
+        }
+        
+        
     }
     if (key == GLFW_KEY_S /*&& action == GLFW_PRESS*/) {
-        mod_x += 0.5f;
-        mod_y += 0.5f;
-        mod_z += 0.5f;
-        mod_center -= 0.5f;
-
-        cameraObject.setCameraPosition(speed * -cameraObject.getCameraCenter() + cameraObject.getCameraPosition());
+        if (eyeViewState == 0)
+        {
+            mod_x += 0.5f;
+            mod_y += 0.5f;
+            mod_z += 0.5f;
+            mod_center -= 0.5f;
+            cameraObject.setCameraPosition(speed * -cameraObject.getCameraCenter() + cameraObject.getCameraPosition());
+        }
+        
     }
 
     if (key == GLFW_KEY_A /*&& action == GLFW_PRESS*/) {
-       mod_a -= 0.5f;
+        if (eyeViewState == 0)
+        {
+            mod_a -= 0.5f;
 
-       cameraObject.setCameraPosition(speed * -glm::normalize(glm::cross(cameraObject.getCameraCenter(), cameraObject.getWorldUp())) + cameraObject.getCameraPosition());
+            cameraObject.setCameraPosition(speed * -glm::normalize(glm::cross(cameraObject.getCameraCenter(), cameraObject.getWorldUp())) + cameraObject.getCameraPosition());
+        }
     }
     if (key == GLFW_KEY_D /*&& action == GLFW_PRESS*/) {
-        mod_a += 0.5f;
+        if (eyeViewState == 0)
+        {
+            mod_a += 0.5f;
 
-        cameraObject.setCameraPosition(speed * glm::normalize(glm::cross(cameraObject.getCameraCenter(), cameraObject.getWorldUp())) + cameraObject.getCameraPosition());
+            cameraObject.setCameraPosition(speed * glm::normalize(glm::cross(cameraObject.getCameraCenter(), cameraObject.getWorldUp())) + cameraObject.getCameraPosition());
+        }
+        
     }
 
     if (key == GLFW_KEY_Q /*&& action == GLFW_PRESS*/) {
-        playerObject.setPlayerDepth(mod_x += 0.01);
-        std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
-        mod_b += 0.5f;
-        mod_position += 0.5f;
+        if (eyeViewState == 0)
+        {
+            playerObject.setPlayerDepth(mod_x += 0.01);
+            std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
+            mod_b += 0.5f;
+            mod_position += 0.5f;
+        }
     }
     if (key == GLFW_KEY_E /*&& action == GLFW_PRESS*/) {
-        playerObject.setPlayerDepth(mod_x -= 0.01);
-        std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
-        mod_b -= 0.5f;
-        mod_position -= 0.5f;
+        if (eyeViewState == 0)
+        {
+            playerObject.setPlayerDepth(mod_x -= 0.01);
+            std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
+            mod_b -= 0.5f;
+            mod_position -= 0.5f;
+        }
     }
 
     if (key == GLFW_KEY_F && action == GLFW_PRESS) {
@@ -422,8 +442,10 @@ int main(void)
                 GL_UNSIGNED_BYTE,
                 data
             );
+            stbi_image_free(data);
         }
     }
+    stbi_set_flip_vertically_on_load(true);
 
     std::string path = "3D/Mouse.obj";
     std::vector<tinyobj::shape_t> shapes;
@@ -1064,9 +1086,9 @@ int main(void)
             cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x) - cameraFront);
         
         if(eyeViewState == 0){
-            cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x) - cameraFront);
+            //cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x) - cameraFront);
         }else{
-            cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b + 50.f, mod_x - 25.f) - cameraFront);
+            cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b + 50.f, mod_x) - cameraFront);
         }
 
         cameraObject.setViewMatrix();
