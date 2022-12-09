@@ -41,6 +41,7 @@ float mod_a = 0.f;
 float mod_b = 0.f;
 float mod_position = 0.f;
 float speed = 0.001f;
+float light_intensity = 0.1f;
 void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_W /*&& action == GLFW_PRESS*/) {
         mod_x -= 0.5f;
@@ -81,6 +82,16 @@ void Key_Callback(GLFWwindow* window, int key, int scancode, int action, int mod
         std::cout << playerObject.getPlayerDepth() << "m" << std::endl;
         mod_b -= 0.5f;
         mod_position -= 0.5f;
+    }
+
+    if (key == GLFW_KEY_F && action == GLFW_PRESS) {
+
+        light_intensity += 6.f;
+
+        if (light_intensity > 14.f)
+        {
+            light_intensity = .1f;
+        }
     }
 }
 
@@ -997,7 +1008,7 @@ int main(void)
 
     lightObject.setLightPosition(glm::vec3(-10, 3, 0));
     lightObject.setLightColor(glm::vec3(1.0f, 1.0f, 1.0f));
-    lightObject.setAmbientStrength(0.1f);
+    lightObject.setAmbientStrength(light_intensity);
     lightObject.setAmbientColor(glm::vec3(1.0f, 1.0f, 1.0f));
     lightObject.setSpecStrength(0.5f);
     lightObject.setSpecPhong(16.0f);
@@ -1011,6 +1022,7 @@ int main(void)
 
         lightObject.setLightColor(glm::vec3(0.0f, 1.0f, 0.0f));
         lightObject.setAmbientColor(glm::vec3(0.0f, 1.0f, 0.0f));
+        lightObject.setAmbientStrength(light_intensity);
         cameraObject.setCameraPosition(glm::vec3(mod_a, mod_b, mod_x));
         cameraObject.setCameraCenter(glm::vec3(mod_a,mod_b, mod_center));
         lightObject.setLightPosition(glm::vec3(mod_a, mod_b, mod_z));
