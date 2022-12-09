@@ -1066,7 +1066,7 @@ int main(void)
         lightObject.setAmbientStrength(light_intensity);
         lightObject.setLightPosition(glm::vec3(mod_a, mod_b, mod_z));
 
-        if (viewState == 0) {
+        if (viewState == 0 && eyeViewState == 0) {
             lightObject.setLightColor(glm::vec3(0.0f, 1.0f, 0.0f));
             lightObject.setAmbientColor(glm::vec3(0.0f, 1.0f, 0.0f));
         }
